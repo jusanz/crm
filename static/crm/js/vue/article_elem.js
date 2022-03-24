@@ -2,7 +2,8 @@ const article_elem = {
     props: ['json', 'url'],
     computed: {
       rendered() {
-        return DOMPurify.sanitize(marked.parse(this.json.body));
+        let dirty = marked.parse(this.json.body);
+        return DOMPurify.sanitize(dirty, { ALLOWED_TAGS: ["iframe"], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] });
       }
     },
 
