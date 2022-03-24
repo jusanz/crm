@@ -3,7 +3,8 @@ const article_elem = {
     computed: {
       rendered() {
         let dirty = marked.parse(this.json.body);
-        return DOMPurify.sanitize(dirty, { ALLOWED_TAGS: ["iframe"], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] });
+        return DOMPurify.sanitize(dirty, { ADD_TAGS: ["iframe"], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] });
+        // return DOMPurify.sanitize(dirty, { ALLOWED_TAGS: ["iframe"], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] });
       }
     },
 
