@@ -388,6 +388,3 @@ tags
 # Support for Project snippet scope
 
 # End of https://www.toptal.com/developers/gitignore/api/vim,node,rust,django,visualstudiocode,macos
-
-/static/
-/main/local_settings.py
