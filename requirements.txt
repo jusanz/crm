@@ -1,0 +1,7 @@
+channels==3.0.4
+channels-redis==3.4.0
+Django==4.0.3
+django-filter==21.1
+django-ical==1.8.3
+django-webpack-loader==1.4.1
+djangorestframework==3.13.1
