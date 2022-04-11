@@ -6,7 +6,7 @@ from django.contrib.sites.models import Site
 from . import models
 
 class AllSchedulesFeed(ICalFeed):
-    timezone = 'UTC'
+    timezone = 'Asia/Tokyo'
 
     def product_id(self):
         current_site = Site.objects.get_current()
