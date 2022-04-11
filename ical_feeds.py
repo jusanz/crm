@@ -3,6 +3,7 @@ from django.urls import reverse
 import json
 from datetime import datetime
 from django.contrib.sites.models import Site
+from django.utils.timezone import make_aware
 from . import models
 
 class AllSchedulesFeed(ICalFeed):
@@ -33,13 +34,13 @@ class AllSchedulesFeed(ICalFeed):
 
     def item_start_datetime(self, item):
         timestamp = item.json["schedule"]["start_datetime"]
-        return datetime.fromtimestamp(timestamp)
+        return make_aware(datetime.fromtimestamp(timestamp))
 
     def item_end_datetime(self, item):
         if not "end_datetime" in item.json["schedule"]:
             return None
         timestamp = item.json["schedule"]["end_datetime"]
-        return datetime.fromtimestamp(timestamp)
+        return make_aware(datetime.fromtimestamp(timestamp))
 
     # item_link is only needed if NewsItem has no get_absolute_url method.
     def item_link(self, item):
