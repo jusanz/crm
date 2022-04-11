@@ -5,17 +5,18 @@ from datetime import datetime
 from django.contrib.sites.models import Site
 from . import models
 
-current_site = Site.objects.get_current()
-site_domain = current_site.domain
-site_name = current_site.name
-
 class AllSchedulesFeed(ICalFeed):
-    product_id = '-//{}//AllSchedules//JP'.format(site_domain)
     timezone = 'UTC'
-    file_name = "{}_all_schedules.ics".format(site_name)
 
-    #def file_name(self, obj):
-    #    return "feed_%s.ics" % obj.pk
+    def product_id(self):
+        current_site = Site.objects.get_current()
+        site_domain = current_site.domain
+        return '-//{}//AllSchedules//JP'.format(site_domain)
+    
+    def file_name(self): 
+        current_site = Site.objects.get_current()
+        site_name = current_site.name
+        return "{}_all_schedules.ics".format(site_name)
 
     def items(self):
         return models.Article.objects.filter(json__has_key="schedule").order_by('-json__schedule__start_datetime')
