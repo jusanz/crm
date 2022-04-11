@@ -99,6 +99,10 @@
 
     mounted() {
       this.reload();
+      const date = new Date();
+      console.log(date);
+      console.log(date.getTime());
+      console.log(new Date(date.getTime()));
     },
 
     template: `

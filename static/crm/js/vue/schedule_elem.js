@@ -10,8 +10,8 @@ const schedule_elem = {
 
     methods: {
         reload() {
-            this.start_datetime = new Date(this.json.schedule.start_datetime * 1000); 
-            this.end_datetime = new Date(this.json.schedule.end_datetime * 1000); 
+            this.start_datetime = new Date(this.json.schedule.start_datetime * 1000); // local 
+            this.end_datetime = new Date(this.json.schedule.end_datetime * 1000); // local
         }
     },
 

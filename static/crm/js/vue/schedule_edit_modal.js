@@ -82,8 +82,8 @@ const schedule_edit_modal = {
             this._get(this.url)
                 .then(() => {
                     if (this.new) {
-                        const start_datetime_ts = this.start_datetime.getTime() / 1000;
-                        const end_datetime_ts = this.end_datetime.getTime() / 1000;
+                        const start_datetime_ts = this.start_datetime.getTime() / 1000; // local
+                        const end_datetime_ts = this.end_datetime.getTime() / 1000; // local
                         this.json = {
                             title: this.title,
                             schedule: {
@@ -100,8 +100,8 @@ const schedule_edit_modal = {
             // if (this.new && !this.json.body) return
             if (this.json === this.response_data) return
 
-            const start_datetime_ts = this.start_datetime.getTime() / 1000;
-            const end_datetime_ts = this.end_datetime.getTime() / 1000;
+            const start_datetime_ts = this.start_datetime.getTime() / 1000; // local
+            const end_datetime_ts = this.end_datetime.getTime() / 1000; // local
 
             this.json.schedule.start_datetime = start_datetime_ts;
             this.json.schedule.end_datetime = end_datetime_ts;
