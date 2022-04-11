@@ -10,3 +10,12 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Article
         fields = ['json', 'url', 'pk']
+
+class ScheduleSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='crm:schedule-detail',
+        read_only=True
+    )
+    class Meta:
+        model = models.Article
+        fields = ['json', 'url', 'pk']
