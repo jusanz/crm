@@ -107,7 +107,7 @@ const schedule_edit_modal = {
             this.json.schedule.start_datetime = start_datetime_ts;
             this.json.schedule.end_datetime = end_datetime_ts;
             this.json.title = this.title;
-            this.json.all_day = this.all_day;
+            this.json.schedule.all_day = this.all_day;
 
             if (this.new) {
                 this._post(this.url, { json: this.json }).then(func.apply());
@@ -141,7 +141,7 @@ const schedule_edit_modal = {
         reload() {
             if (!this.url) return;
             this.title = this.json.title;
-            if ("all_day" in this.json) this.all_day = this.json.all_day;
+            if ("all_day" in this.json.schedule) this.all_day = this.json.schedule.all_day;
 
             this.start_datetime = new Date(this.json.schedule.start_datetime * 1000); // utc
 
