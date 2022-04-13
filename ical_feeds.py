@@ -35,13 +35,19 @@ class AllSchedulesFeed(ICalFeed):
 
     def item_start_datetime(self, item):
         timestamp = item.json["schedule"]["start_datetime"]
-        return datetime.fromtimestamp(timestamp, timezone.utc).replace(tzinfo=None)
+        dt = datetime.fromtimestamp(timestamp, timezone.utc).replace(tzinfo=None)
+        if item.json["schedule"]["all_day"]:
+            return dt.date()
+        return dt
 
     def item_end_datetime(self, item):
         if not "end_datetime" in item.json["schedule"]:
             return None
         timestamp = item.json["schedule"]["end_datetime"]
-        return datetime.fromtimestamp(timestamp, timezone.utc).replace(tzinfo=None)
+        dt = datetime.fromtimestamp(timestamp, timezone.utc).replace(tzinfo=None)
+        if item.json["schedule"]["all_day"]:
+            return dt.date()
+        return dt
 
     # item_link is only needed if NewsItem has no get_absolute_url method.
     def item_link(self, item):
