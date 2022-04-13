@@ -75,8 +75,7 @@
         this.loading = true;
         this._get("{% url 'crm:schedule-list' %}").then(() => {
           this.loading = false;
-          this.$emit('loaded');
-        })
+        });
       },
 
       update(url, json) {
@@ -100,9 +99,6 @@
     mounted() {
       this.reload();
       const date = new Date();
-      console.log(date);
-      console.log(date.getTime());
-      console.log(new Date(date.getTime()));
     },
 
     template: `
@@ -120,7 +116,7 @@
 
         <schedule_edit_modal
         ref="schedule_edit_modal"
-        @submitted="reload"
+        @hidden="reload"
         />
 
       </div>

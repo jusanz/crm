@@ -65,7 +65,7 @@ const schedule_elem = {
 
     <h5 class="card-title">{{ json.title }}</h5>
     <p class="card-text">{{ year }} / {{ month }} / {{ day }}</p>
-    <p class="card-text">{{ start_hour }}:{{ start_min }} - {{ end_hour }}:{{ end_min }}</p>
+    <p v-if="!json.all_day" class="card-text">{{ start_hour }}:{{ start_min }} - {{ end_hour }}:{{ end_min }}</p>
     
     </div>
     </article>

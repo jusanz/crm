@@ -24,7 +24,7 @@ const minus_60min = (d) => {
 
 const schedule_edit_modal = {
     props: [],
-    emits:["submitted"],
+    emits:["hidden"],
     data() {
         return {
             json: {},
@@ -35,6 +35,7 @@ const schedule_edit_modal = {
             modal: null,
             url: "",
             title: "",
+            all_day: false,
         }
     },
     methods: {
@@ -106,6 +107,7 @@ const schedule_edit_modal = {
             this.json.schedule.start_datetime = start_datetime_ts;
             this.json.schedule.end_datetime = end_datetime_ts;
             this.json.title = this.title;
+            this.json.all_day = this.all_day;
 
             if (this.new) {
                 this._post(this.url, { json: this.json }).then(func.apply());
@@ -122,19 +124,24 @@ const schedule_edit_modal = {
             this.end_datetime =  new Date();
             this.url =  "";
             this.title =  "";
+            this.all_day = false;
         },
 
         on_submit() {
             this._update(() => {
-                this.$emit("submitted");
-                this.init();
                 this.modal.hide();
+            });
+        },
+
+        on_change() {
+            this._update(() => {
             });
         },
 
         reload() {
             if (!this.url) return;
             this.title = this.json.title;
+            if ("all_day" in this.json) this.all_day = this.json.all_day;
 
             this.start_datetime = new Date(this.json.schedule.start_datetime * 1000); // utc
 
@@ -151,6 +158,7 @@ const schedule_edit_modal = {
             if (this.start_datetime.getTime() > this.end_datetime.getTime()) {
                 this.end_datetime = plus_60min(this.start_datetime);
             }
+            this.on_change();
         },
 
         change_end_datetime() {
@@ -158,12 +166,18 @@ const schedule_edit_modal = {
             if (this.start_datetime.getTime() > this.end_datetime.getTime()) {
                 this.start_datetime = minus_60min(this.end_datetime);
             }
+            this.on_change();
         },
 
     },
 
     mounted() {
-        this.modal = new bootstrap.Modal(this.$refs.modal, {})
+        let modal_el = this.$refs.modal;
+        modal_el.addEventListener('hidden.bs.modal', (event) => {
+            this.init();
+            this.$emit("hidden");
+        });
+        this.modal = new bootstrap.Modal(modal_el, {})
         //this._get(this.url);
         //this.reload();
     },
@@ -185,19 +199,26 @@ const schedule_edit_modal = {
 
     <form @submit.prevent="on_submit">
         <label>Title:</label>
-        <input class="form-control" type="text" v-model="title" @change="on_submit"/>
+        <input class="form-control" type="text" v-model="title" @change="on_change"/>
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" v-model="all_day" id="IsAllDay">
+            <label class="form-check-label" for="IsAllDay">
+                All Day
+            </label>
+        </div>
 
         <div class="row">
             <div class="col-3">
             <label>Start DateTime:</label>
             <input class="form-control" type="datetime-local" ref="start_datetime_input"
-                :value="start_datetime_str" @change="change_start_datetime" >
+                :value="start_datetime_str" @blur="change_start_datetime" >
             </div>
 
             <div class="col-3">
             <label>End DateTime:</label>
             <input class="form-control" type="datetime-local" ref="end_datetime_input"
-                :value="end_datetime_str" @change="change_end_datetime" >
+                :value="end_datetime_str" @blur="change_end_datetime" >
             </div>
         </div>
         
