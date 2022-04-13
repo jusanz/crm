@@ -155,9 +155,10 @@ const schedule_edit_modal = {
 
         change_start_datetime() {
             this.start_datetime = parse_str(this.$refs.start_datetime_input.value)
-            if (this.start_datetime.getTime() > this.end_datetime.getTime()) {
-                this.end_datetime = plus_60min(this.start_datetime);
-            }
+            //if (this.start_datetime.getTime() > this.end_datetime.getTime()) {
+            //    this.end_datetime = plus_60min(this.start_datetime);
+            //}
+            this.end_datetime = plus_60min(this.start_datetime);
             this.on_change();
         },
 
