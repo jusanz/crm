@@ -203,7 +203,7 @@ const schedule_edit_modal = {
         <input class="form-control" type="text" v-model="title" @change="on_change"/>
 
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" v-model="all_day" id="IsAllDay">
+            <input class="form-check-input" type="checkbox" v-model="all_day" id="IsAllDay" @change="on_change">
             <label class="form-check-label" for="IsAllDay">
                 All Day
             </label>
