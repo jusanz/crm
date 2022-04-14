@@ -4,11 +4,13 @@ import json
 from datetime import datetime
 from django.contrib.sites.models import Site
 from datetime import timezone
+from zoneinfo import ZoneInfo
+from django.conf import settings
 
 from . import models
 
 class AllSchedulesFeed(ICalFeed):
-    timezone = 'Asia/Tokyo'
+    timezone = settings.TIME_ZONE
 
     def product_id(self):
         current_site = Site.objects.get_current()
@@ -36,7 +38,7 @@ class AllSchedulesFeed(ICalFeed):
     def item_start_datetime(self, item):
         timestamp = item.json["schedule"]["start_datetime"]
         #dt = datetime.fromtimestamp(timestamp, timezone.utc).replace(tzinfo=None)
-        dt = datetime.fromtimestamp(timestamp).replace(tzinfo=None)
+        dt = datetime.fromtimestamp(timestamp, tz=ZoneInfo(self.timezone)).replace(tzinfo=None)
         if not "all_day" in item.json["schedule"]: return dt
         if item.json["schedule"]["all_day"]: return dt.date()
         return dt
@@ -46,7 +48,7 @@ class AllSchedulesFeed(ICalFeed):
             return None
         timestamp = item.json["schedule"]["end_datetime"]
         #dt = datetime.fromtimestamp(timestamp, timezone.utc).replace(tzinfo=None)
-        dt = datetime.fromtimestamp(timestamp).replace(tzinfo=None)
+        dt = datetime.fromtimestamp(timestamp, tz=ZoneInfo(self.timezone)).replace(tzinfo=None)
         if not "all_day" in item.json["schedule"]: return dt
         if item.json["schedule"]["all_day"]: return dt.date()
         return dt
