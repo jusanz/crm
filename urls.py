@@ -14,6 +14,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("new/", views.new, name="new"),
     path("edit/<int:article_pk>/", views.edit, name="edit"),
+    path("api/schedules/date/<int:year>/<int:month>/<int:day>/", schedule_views.DateView.as_view(), name="schedules_date"),
     path("api/", include(router.urls)),
     path('all_schedules/feed.ics', ical_feeds.AllSchedulesFeed()),
     path("schedules/", schedule_views.index, name="schedules"),

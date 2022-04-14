@@ -17,6 +17,8 @@ from rest_framework import generics
 
 import django_filters.rest_framework
 import json
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 from . import models, serializers
 
@@ -68,3 +70,22 @@ def index(request):
     site_name = current_site.name
     context = {'is_debug': settings.DEBUG, "site_name": site_name}
     return render(request, 'crm/schedules.html', context)
+
+
+class DateView(generics.ListAPIView):
+    queryset = models.Article.objects.filter(json__has_key="schedule").order_by("-json__schedule__start_datetime")
+    serializer_class = serializers.ScheduleSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.SessionAuthentication, authentication.BasicAuthentication]
+
+    def list(self, request, year, month=None, day=None, *args, **kwargs):
+        tzname = request.session.get('django_timezone')
+        if not tzname:
+            tzname = settings.TIME_ZONE
+        from_dt = datetime(year, month, day, tzinfo=ZoneInfo(tzname))
+        to_dt = from_dt + timedelta(days=1)
+
+        queryset = self.get_queryset().filter(json__schedule__start_datetime__gte=from_dt.timestamp(),
+            json__schedule__start_datetime__lt=to_dt.timestamp())
+        serializer = self.serializer_class(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
