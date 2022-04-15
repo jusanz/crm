@@ -85,7 +85,19 @@ class DateView(generics.ListAPIView):
         from_dt = datetime(year, month, day, tzinfo=ZoneInfo(tzname))
         to_dt = from_dt + timedelta(days=1)
 
-        queryset = self.get_queryset().filter(json__schedule__start_datetime__gte=from_dt.timestamp(),
-            json__schedule__start_datetime__lt=to_dt.timestamp())
+        queryset = self.get_queryset().filter(
+            Q(
+                json__schedule__start_datetime__gte=from_dt.timestamp(),
+                json__schedule__start_datetime__lt=to_dt.timestamp()
+            ) |
+            Q(
+                json__schedule__end_datetime__gte=from_dt.timestamp(),
+                json__schedule__end_datetime__lt=to_dt.timestamp()
+            ) |
+            Q(
+                json__schedule__start_datetime__lt=from_dt.timestamp(),
+                json__schedule__end_datetime__gt=to_dt.timestamp()
+            )
+        )
         serializer = self.serializer_class(queryset, many=True, context={'request': request})
         return Response(serializer.data)
