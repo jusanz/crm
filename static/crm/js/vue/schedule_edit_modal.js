@@ -36,6 +36,7 @@ const schedule_edit_modal = {
             url: "",
             title: "",
             all_day: false,
+            body: "",
         }
     },
     methods: {
@@ -108,6 +109,7 @@ const schedule_edit_modal = {
             this.json.schedule.end_datetime = end_datetime_ts;
             this.json.title = this.title;
             this.json.schedule.all_day = this.all_day;
+            this.json.body = this.body;
 
             if (this.new) {
                 this._post(this.url, { json: this.json }).then(func.apply());
@@ -125,6 +127,7 @@ const schedule_edit_modal = {
             this.url =  "";
             this.title =  "";
             this.all_day = false;
+            this.body = "";
         },
 
         on_submit() {
@@ -141,6 +144,8 @@ const schedule_edit_modal = {
         reload() {
             if (!this.url) return;
             this.title = this.json.title;
+            this.body = this.json.body;
+
             if ("all_day" in this.json.schedule) this.all_day = this.json.schedule.all_day;
 
             this.start_datetime = new Date(this.json.schedule.start_datetime * 1000); // utc
@@ -221,7 +226,11 @@ const schedule_edit_modal = {
             <input class="form-control" type="datetime-local" ref="end_datetime_input"
                 :value="end_datetime_str" @blur="change_end_datetime" >
             </div>
+
         </div>
+
+        <label>Note:</label>
+        <textarea class="form-control" rows="10" autofocus @change="on_change" v-model="body"></textarea>
         
         <button class="btn btn-primary" type="submit">Submit</button>
     </form>
