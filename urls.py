@@ -1,5 +1,6 @@
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
+from django.views.defaults import page_not_found
 from rest_framework import routers
 from . import views, schedule_views
 from . import ical_feeds
@@ -15,6 +16,7 @@ urlpatterns = [
     path("new/", views.new, name="new"),
     path("edit/<int:article_pk>/", views.edit, name="edit"),
     path("api/schedules/date/<int:year>/<int:month>/<int:day>/", schedule_views.DateView.as_view(), name="schedules_date"),
+    path("api/schedules/date/", page_not_found, name="schedules_date_template"),
     path("api/", include(router.urls)),
     path('all_schedules/feed.ics', ical_feeds.AllSchedulesFeed()),
     path("schedules/", schedule_views.index, name="schedules"),

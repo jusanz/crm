@@ -28,106 +28,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.6/purify.min.js"
   integrity="sha512-DJjvM/U3zCRpzrYboJgg23iLHapWcS2rlo7Ni18Cdv+FMs6b3gUF7hQihztj4uVkHHfUwk7dha97jVzRqUJ7hg=="
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>document.csrf_token = { value: "{{ csrf_token }}" }</script>
+<script>document.schedule_list_url = "{% url 'crm:schedule-list' %}"</script>
+<script>document.schedules_date_url = "{% url 'crm:schedules_date_template'%}"</script>
+
 <script>axios.defaults.headers.common['X-CSRFToken'] = document.csrf_token.value</script>
+
+<script src="{% static 'crm/js/utils.js' %}"></script>
+<script src="{% static 'crm/js/vue/app.js' %}"></script>
 <script src="{% static 'crm/js/vue/schedule_elem.js' %}"></script>
 <script src="{% static 'crm/js/vue/schedule_edit_modal.js' %}"></script>
-<script>
-  const App = {
-    props: [],
-    data() {
-      return {
-        data: [],
-        loading: false,
-      }
-    },
-    methods: {
-
-      _get: async function (url) {
-        await axios.get(url)
-          .then((response) => {
-            this.data = response.data.results;
-          })
-          .catch((error) => {
-            alert(error)
-          });
-      },
-
-      _post: async function (url, data) {
-        await axios.post(url, data)
-          .then((response) => {
-          })
-          .catch((error) => {
-            alert(error)
-          });
-      },
-
-      _patch: async function (url, data) {
-        await axios.patch(url, data)
-          .then((response) => {
-          })
-          .catch((error) => {
-            alert(error)
-          });
-      },
-
-      reload() {
-        this.loading = true;
-        this._get("{% url 'crm:schedule-list' %}").then(() => {
-          this.loading = false;
-        });
-      },
-
-      update(url, json) {
-        this._patch(url, { "json": json }).then(() => {
-          this.reload();
-        });
-      },
-      create(json) {
-        this._post("{% url 'crm:schedule-list' %}", { "json": json }).then(() => {
-          this.reload();
-        });
-      },
-      edit_schedule(url) {
-        this.$refs.schedule_edit_modal.show(url);
-      },
-      create_new() {
-        this.$refs.schedule_edit_modal.show("{% url 'crm:schedule-list' %}");
-      },
-    },
-
-    mounted() {
-      this.reload();
-      const date = new Date();
-    },
-
-    template: `
-      <div class="container">
-
-        <button class="btn btn-primary" @click="create_new">new</button>
-
-        <schedule_elem
-        v-for="elem in data"
-        :key="elem.pk"
-        :json="elem.json"
-        :url="elem.url"
-        @click="edit_schedule(elem.url)"
-        />
-
-        <schedule_edit_modal
-        ref="schedule_edit_modal"
-        @hidden="reload"
-        />
-
-      </div>
-      `
-  };
-</script>
+<script src="{% static 'crm/js/vue/schedule_date.js' %}"></script>
 
 <script>
   const app = Vue.createApp(App);
   app.component('schedule_elem', schedule_elem);
   app.component('schedule_edit_modal', schedule_edit_modal);
+  app.component('schedule_date', schedule_date);
   app.mount('#app');
 </script>
 {% endblock %}
