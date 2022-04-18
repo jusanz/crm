@@ -64,8 +64,8 @@ const schedule_elem = {
     <p class="card-text">
     <span v-if="!json.schedule.all_day" class="card-text">{{ start_hour }}:{{ start_min }} - {{ end_hour }}:{{ end_min }} </span>
     {{ json.title }}
-    <span class="badge bg-success" @click="()=>{$emit('to_edit', url)}" >Edit</span>
-    <span class="badge bg-danger"  @click="()=>{$emit('delete', url)}">Delete</span>
+    <span class="badge bg-success" @click="()=>{$emit('to_edit', url)}" >{{ $t("labels.edit") }}</span>
+    <span class="badge bg-danger"  @click="()=>{$emit('delete', url)}">{{ $t("labels.delete") }}</span>
     </p>
     `
 }

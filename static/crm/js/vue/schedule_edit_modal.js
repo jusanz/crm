@@ -223,35 +223,33 @@ const schedule_edit_modal = {
                 <div class="modal-body">
 
                     <form @submit.prevent="on_submit">
-                        <label>Title:</label>
+                        <label>{{ $t("labels.title") }}:</label>
                         <input class="form-control" type="text" v-model="title" @change="on_change"/>
 
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" v-model="all_day" id="IsAllDay" @change="on_change">
-                            <label class="form-check-label" for="IsAllDay">
-                                All Day
-                            </label>
+                            <label class="form-check-label" for="IsAllDay">{{ $t("labels.all_day") }}</label>
                         </div>
 
                         <div class="row">
                             <div class="col-3">
-                            <label>Start DateTime:</label>
+                            <label>{{ $t("labels.start_datetime") }}:</label>
                             <input class="form-control" type="datetime-local" ref="start_datetime_input"
                                 :value="start_datetime_str" @blur="change_start_datetime" >
                             </div>
 
                             <div class="col-3">
-                            <label>End DateTime:</label>
+                            <label>{{ $t("labels.end_datetime") }}:</label>
                             <input class="form-control" type="datetime-local" ref="end_datetime_input"
                                 :value="end_datetime_str" @blur="change_end_datetime" >
                             </div>
 
                         </div>
 
-                        <label>Note:</label>
+                        <label>{{ $t("labels.note") }}:</label>
                         <textarea class="form-control" rows="10" autofocus @change="on_change" v-model="body"></textarea>
                         
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-primary" type="submit">{{ $t("labels.submit") }}</button>
                     </form>
 
                 </div>
