@@ -119,9 +119,11 @@ const schedule_edit_modal = {
             const start_datetime_ts = this.start_datetime.getTime() / 1000; // local
             const end_datetime_ts = this.end_datetime.getTime() / 1000; // local
 
-            this.json.schedule.all_day = this.all_day;
-            this.json.body = this.body;
             this.json.title = this.title;
+            this.json.schedule.all_day = this.all_day;
+            this.json.schedule.start_datetime = start_datetime_ts; 
+            this.json.schedule.end_datetime = end_datetime_ts; 
+            this.json.body = this.body;
 
             if (this.new) {
                 this._post(this.url, { json: this.json }).then(func.apply());
