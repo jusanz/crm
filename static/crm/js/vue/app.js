@@ -76,20 +76,27 @@ const App = {
         <article
         v-for="date in dates"
         :key="date"
-        class="mb-5"
+        class="card mb-5"
         >
-            <h2
+
+        <div class="card-body">
+
+            <h5
             :id="'date-' + date.replaceAll('/', '-')"
             @click="create_new(date)"
+            class="card-title"
             >
             {{ date }}
-            </h2>
+            </h5>
         
             <schedule_date
             :url="date_url(date)"
             @to_edit="edit_schedule"
             :ref="'date-' + date.replaceAll('/', '-')"
             />
+        
+        </div>
+
         </article>
 
         <schedule_edit_modal
