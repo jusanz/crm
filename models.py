@@ -9,5 +9,7 @@ class Article(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    related_articles = models.ManyToManyField("Article")
+
     def __str__(self):
         return '{} {}'.format(type(self.json), self.json)
