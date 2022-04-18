@@ -12,7 +12,7 @@ const article_elem = {
     },
 
     template: `
-    <article class="card my-2" @click="()=>{$emit('to_edit', url);}">
+    <article class="card my-2" @click="()=>{$emit('to_edit', url)}">
       <div class="card-body" v-html="rendered">
       </div>
     </article>

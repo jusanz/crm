@@ -78,8 +78,22 @@ const schedule_edit_modal = {
                 });
         },
 
-        show(url) {
+        show(url, date_str="") {
             this.init();
+
+            if (date_str) {
+                const [year, month, day] = date_str.split("/");
+
+                const start_date = new Date(year, month - 1, day);
+                const end_date = new Date(year, month - 1, day);
+
+                start_date.setHours(10, 0, 0, 0);
+                end_date.setHours(11, 0, 0, 0);
+
+                this.start_datetime = start_date;
+                this.end_datetime = end_date;
+            }  
+
             this.url = url;
             this._get(this.url)
                 .then(() => {
@@ -105,11 +119,9 @@ const schedule_edit_modal = {
             const start_datetime_ts = this.start_datetime.getTime() / 1000; // local
             const end_datetime_ts = this.end_datetime.getTime() / 1000; // local
 
-            this.json.schedule.start_datetime = start_datetime_ts;
-            this.json.schedule.end_datetime = end_datetime_ts;
-            this.json.title = this.title;
             this.json.schedule.all_day = this.all_day;
             this.json.body = this.body;
+            this.json.title = this.title;
 
             if (this.new) {
                 this._post(this.url, { json: this.json }).then(func.apply());
@@ -119,12 +131,17 @@ const schedule_edit_modal = {
         },
 
         init() {
+            const start_date = new Date();
+            const end_date = new Date();
+            start_date.setHours(10, 0, 0, 0);
+            end_date.setHours(11, 0, 0, 0);
+
             this.json= {};
-            this.new =  true;
+            this.new = true 
             this.response_data =  {};
-            this.start_datetime =  new Date();
-            this.end_datetime =  new Date();
-            this.url =  "";
+            this.start_datetime = start_date;
+            this.end_datetime = end_date; 
+            this.url = "";
             this.title =  "";
             this.all_day = false;
             this.body = "";

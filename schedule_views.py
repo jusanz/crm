@@ -73,7 +73,7 @@ def index(request):
 
 
 class DateView(generics.ListAPIView):
-    queryset = models.Article.objects.filter(json__has_key="schedule").order_by("-json__schedule__start_datetime")
+    queryset = models.Article.objects.filter(json__has_key="schedule").order_by("json__schedule__start_datetime")
     serializer_class = serializers.ScheduleSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [authentication.SessionAuthentication, authentication.BasicAuthentication]

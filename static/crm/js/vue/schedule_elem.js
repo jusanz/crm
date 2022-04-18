@@ -1,5 +1,6 @@
 const schedule_elem = {
     props: ['json', 'url'],
+    emits: ["to_edit", "delete"],
     data() {
         return {
             start_datetime: new Date(),
@@ -63,9 +64,15 @@ const schedule_elem = {
     <article class="card my-2">
     <div class="card-body">
 
-    <h5 class="card-title">{{ json.title }}</h5>
-    <p class="card-text">{{ year }} / {{ month }} / {{ day }}</p>
-    <p v-if="!json.schedule.all_day" class="card-text">{{ start_hour }}:{{ start_min }} - {{ end_hour }}:{{ end_min }}</p>
+    <p class="card-text">
+    <span
+        v-if="!json.schedule.all_day" class="card-text"
+        @click="()=>{$emit('to_edit', url)}"
+    >
+    {{ start_hour }}:{{ start_min }} - {{ end_hour }}:{{ end_min }} </span>
+    {{ json.title }}
+    <a class="btn btn-outline-danger" role="button" @click="()=>{$emit('delete', url)}">delete</a>
+    </p>
     
     </div>
     </article>
