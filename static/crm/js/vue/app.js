@@ -50,6 +50,13 @@ const App = {
                 this.$refs['date-' + date.replaceAll('/', '-')].reload();
             });
         },
+
+        delete_schedule(url) {
+            rest("delete", url)
+                .then((_) => {
+                    this.reload();
+                })
+        },
     },
 
     created() {
@@ -92,6 +99,7 @@ const App = {
             <schedule_date
             :url="date_url(date)"
             @to_edit="edit_schedule"
+            @delete="delete_schedule"
             :ref="'date-' + date.replaceAll('/', '-')"
             />
         

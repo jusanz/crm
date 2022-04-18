@@ -1,6 +1,6 @@
 const schedule_date = {
     props: ["url"],
-    emits: ["to_edit"],
+    emits: ["to_edit", "delete"],
     data() {
         return {
             schedules: [],
@@ -16,13 +16,6 @@ const schedule_date = {
                 alert(error);
             }
         },
-
-        delete_schedule(url) {
-            rest("delete", url)
-                .then((_) => {
-                    this.reload();
-                })
-        },
     },
     mounted() {
         this.reload();
@@ -34,7 +27,7 @@ const schedule_date = {
             :json="elem.json"
             :url="elem.url"
             @to_edit="(url)=>{$emit('to_edit', url)}"
-            @delete="delete_schedule"
+            @delete="(url)=>{$emit('delete', url)}"
         />
     `
 }

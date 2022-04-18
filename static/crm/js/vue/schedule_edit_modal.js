@@ -150,6 +150,10 @@ const schedule_edit_modal = {
         },
 
         on_submit() {
+            if (this.new) {
+                this.modal.hide();
+                return;
+            }
             this._update(() => {
                 this.modal.hide();
             });
